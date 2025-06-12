@@ -1,10 +1,10 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import { PostHogProvider } from 'posthog-js/react';
-
-const rootElement = document.getElementById('root');
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import { PostHogProvider } from "posthog-js/react";
+import posthog from "posthog-js";
+const rootElement = document.getElementById("root");
 if (!rootElement) {
   throw new Error("Root element not found!");
 }
@@ -12,6 +12,11 @@ if (!rootElement) {
 const options = {
   api_host: process.env.REACT_APP_PUBLIC_POSTHOG_HOST,
 };
+
+const distinctId = `user-${Math.floor(Math.random() * 1000000)}`;
+posthog.identify(distinctId, {
+  variant: "experiment", // or "control"
+});
 
 const root = ReactDOM.createRoot(rootElement);
 root.render(
